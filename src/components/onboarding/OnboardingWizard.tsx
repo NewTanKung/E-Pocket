@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 import {
-  Wallet,
   Plus,
   Trash2,
   ArrowRight,
@@ -20,6 +19,7 @@ import {
   type CategoryCode,
 } from "@/lib/finance-engine";
 import type { DashboardDataDTO } from "@/lib/ledger";
+import { EPocketSquareMark } from "@/components/common/EPocketLogo";
 
 interface OnboardingWizardProps {
   user: {
@@ -228,9 +228,7 @@ export function OnboardingWizard({
       {/* Header Bar */}
       <header className="topbar liquid-glass">
         <div className="brand-cluster">
-          <div className="brand-badge">
-            <Wallet size={22} />
-          </div>
+          <EPocketSquareMark size={44} />
           <div>
             <div className="brand-title">
               <span>E-Pocket</span>

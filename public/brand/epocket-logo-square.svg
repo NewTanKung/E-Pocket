@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="epocket-bg" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0b2429"/>
+      <stop offset="100%" stop-color="#071318"/>
+    </linearGradient>
+    <linearGradient id="epocket-mint" x1="18" y1="22" x2="98" y2="98" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c2f9e4"/>
+      <stop offset="55%" stop-color="#8de8c8"/>
+      <stop offset="100%" stop-color="#53cba8"/>
+    </linearGradient>
+    <linearGradient id="epocket-inner" x1="28" y1="30" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#123f42"/>
+      <stop offset="100%" stop-color="#0a2428"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Rounded Square App Container -->
+  <rect width="120" height="120" rx="28" fill="url(#epocket-bg)"/>
+  <rect x="1.5" y="1.5" width="117" height="117" rx="26.5" stroke="#a4efd2" stroke-opacity="0.22" stroke-width="1.5"/>
+
+  <!-- Top Fold / Card Lip -->
+  <path d="M26 35C26 28.9249 30.9249 24 37 24H79C85.0751 24 90 28.9249 90 35V41H26V35Z" fill="#174c4f" stroke="#8de8c8" stroke-width="1.5"/>
+
+  <!-- Main Pocket Body Forming Stylized 'E' + Wallet -->
+  <rect x="22" y="34" width="72" height="62" rx="16" fill="url(#epocket-mint)"/>
+
+  <!-- Inner Dark Teal Cutout Forming the 'E' Bars -->
+  <path d="M36 46H82C84.2091 46 86 47.7909 86 50V57H54C50.6863 57 48 59.6863 48 63V67C48 70.3137 50.6863 73 54 73H86V80C86 82.2091 84.2091 84 82 84H36C33.7909 84 32 82.2091 32 80V50C32 47.7909 33.7909 46 36 46Z" fill="url(#epocket-inner)"/>
+
+  <!-- Middle 'E' Bar Highlight -->
+  <rect x="32" y="61" width="24" height="8" rx="4" fill="url(#epocket-mint)"/>
+
+  <!-- Right Clasp Strap & Glowing Coin Node -->
+  <rect x="64" y="55" width="36" height="20" rx="10" fill="url(#epocket-mint)" stroke="#091f24" stroke-width="3"/>
+  <circle cx="74" cy="65" r="5.5" fill="#0b2729"/>
+  <circle cx="74" cy="65" r="3" fill="#c2f9e4"/>
+</svg>

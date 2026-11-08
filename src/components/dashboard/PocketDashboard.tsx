@@ -33,6 +33,7 @@ import {
   type CategoryCode,
 } from "@/lib/finance-engine";
 import type { DashboardDataDTO, TransactionDTO } from "@/lib/ledger";
+import { EPocketSquareMark } from "@/components/common/EPocketLogo";
 
 interface PocketDashboardProps {
   initialDashboard: DashboardDataDTO;
@@ -385,9 +386,7 @@ export function PocketDashboard({
       {/* Topbar */}
       <header className="topbar liquid-glass">
         <div className="brand-cluster">
-          <div className="brand-badge">
-            <Wallet size={22} />
-          </div>
+          <EPocketSquareMark size={44} />
           <div>
             <div className="brand-title">
               <span>E-Pocket</span>

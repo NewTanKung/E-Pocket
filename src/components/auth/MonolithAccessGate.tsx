@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShieldAlert, ExternalLink, RefreshCw, UserCheck, Lock } from "lucide-react";
+import { ExternalLink, RefreshCw, UserCheck } from "lucide-react";
+import { EPocketHorizontalLogo } from "@/components/common/EPocketLogo";
 
 interface MonolithAccessGateProps {
   mode: "UNAUTHENTICATED" | "FORBIDDEN" | "UNAVAILABLE";
@@ -67,20 +68,9 @@ export function MonolithAccessGate({
           padding: "32px 28px",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            marginBottom: "18px",
-          }}
-        >
-          <div className="brand-badge">
-            {mode === "UNAUTHENTICATED" ? (
-              <Lock size={20} />
-            ) : (
-              <ShieldAlert size={20} />
-            )}
+        <div style={{ marginBottom: "18px" }}>
+          <div style={{ marginBottom: "14px" }}>
+            <EPocketHorizontalLogo width={220} height={60} />
           </div>
           <div>
             <span className="monolith-tag">Monolith SSO Domain</span>
@@ -88,7 +78,7 @@ export function MonolithAccessGate({
               style={{
                 fontSize: "21px",
                 fontWeight: 700,
-                marginTop: "4px",
+                marginTop: "6px",
               }}
             >
               {mode === "UNAUTHENTICATED"
