@@ -1,0 +1,164 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "client"
+}
+
+enum FixedItemType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum ExpenseCategory {
+  SALARY
+  BONUS
+  FREELANCE
+  INVESTMENT
+  OTHER_INCOME
+  HOUSING
+  UTILITIES
+  FOOD
+  TRANSPORT
+  DEBT
+  SUBSCRIPTION
+  SHOPPING
+  HEALTH
+  ENTERTAINMENT
+  SAVINGS
+  OTHER_EXPENSE
+}
+
+enum AlertLevel {
+  WARNING
+  OVERSPENT_MONTH
+  CRITICAL
+}
+
+model FinancialProfile {
+  userId               String             @id
+  email                String
+  displayName          String?
+  currency             String             @default("THB")
+  onboardingCompleted  Boolean            @default(false)
+  warningThresholdPct  Int                @default(20)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  fixedIncomes         FixedIncomeItem[]
+  fixedExpenses        FixedExpenseItem[]
+  monthlySheets        MonthlySheet[]
+  transactions         Transaction[]
+  alertLogs            BudgetAlertLog[]
+}
+
+model FixedIncomeItem {
+  id              String           @id @default(cuid())
+  userId          String
+  title           String
+  amountSatang    BigInt
+  isPrimarySalary Boolean          @default(false)
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  profile         FinancialProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId, isActive])
+}
+
+model FixedExpenseItem {
+  id           String           @id @default(cuid())
+  userId       String
+  title        String
+  category     ExpenseCategory  @default(OTHER_EXPENSE)
+  amountSatang BigInt
+  dueDay       Int?
+  isActive     Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  profile      FinancialProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId, isActive])
+}
+
+model MonthlySheet {
+  id                    String                 @id @default(cuid())
+  userId                String
+  yearMonth             String
+  fixedIncomeSatang     BigInt                 @default(0)
+  fixedExpenseSatang    BigInt                 @default(0)
+  extraIncomeSatang     BigInt                 @default(0)
+  extraExpenseSatang    BigInt                 @default(0)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  profile               FinancialProfile       @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  fixedSnapshots        MonthlyFixedSnapshot[]
+  transactions          Transaction[]
+  alertLogs             BudgetAlertLog[]
+
+  @@unique([userId, yearMonth])
+  @@index([userId, yearMonth])
+}
+
+model MonthlyFixedSnapshot {
+  id           String          @id @default(cuid())
+  sheetId      String
+  itemType     FixedItemType
+  title        String
+  category     ExpenseCategory @default(OTHER_EXPENSE)
+  amountSatang BigInt
+  dueDay       Int?
+  sourceItemId String?
+  createdAt    DateTime        @default(now())
+
+  sheet        MonthlySheet    @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+
+  @@index([sheetId, itemType])
+}
+
+model Transaction {
+  id           String           @id @default(cuid())
+  sheetId      String
+  userId       String
+  type         TransactionType
+  title        String
+  category     ExpenseCategory
+  amountSatang BigInt
+  occurredAt   DateTime         @default(now())
+  note         String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  sheet        MonthlySheet     @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+  profile      FinancialProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([sheetId, occurredAt])
+  @@index([userId, occurredAt])
+}
+
+model BudgetAlertLog {
+  id        String           @id @default(cuid())
+  sheetId   String
+  userId    String
+  level     AlertLevel
+  message   String
+  sentToHub Boolean          @default(false)
+  sentAt    DateTime         @default(now())
+
+  sheet     MonthlySheet     @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+  profile   FinancialProfile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@unique([sheetId, level])
+  @@index([userId, sentAt])
+}

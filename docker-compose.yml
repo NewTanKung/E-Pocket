@@ -1,0 +1,19 @@
+name: e-pocket
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: epocket
+      POSTGRES_PASSWORD: epocket_local_dev
+      POSTGRES_DB: epocket
+    ports:
+      - "127.0.0.1:55433:5432"
+    volumes:
+      - epocket_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U epocket -d epocket"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  epocket_data:
